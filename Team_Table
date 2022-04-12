@@ -1,0 +1,15 @@
+-- create a table
+CREATE TABLE Team 
+(
+  id varchar(16),
+  name varchar(40),
+  address varchar(40),
+  city varchar(40),
+  manager varchar(40),
+  logo image,
+  mascot varchar (40),
+  telephone varchar (20),
+  email varchar (40),
+  start_year numeric (4,0),
+  PRIMARY KEY (id),
+);
