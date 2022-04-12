@@ -1,0 +1,14 @@
+-- create a table
+CREATE TABLE Game
+(
+  id varchar(16),
+  home_team_id varchar(16),
+  away_team_id varchar(16),
+  date date,
+  winner varchar (16),
+  score int,
+  venue varchar(20)
+  PRIMARY KEY (id), 
+  FOREIGN KEY (home_team_id) references Team,
+  FOREIGN KEY (away_team_id) references Team,
+);
