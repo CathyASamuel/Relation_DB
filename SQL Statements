@@ -1,0 +1,122 @@
+- create a table Team
+CREATE TABLE Team 
+(
+  id varchar(16),
+  name varchar(40),
+  address varchar(40),
+  city varchar(40),
+  manager varchar(40),
+  logo image,
+  mascot varchar (40),
+  telephone varchar (20),
+  email varchar (40),
+  start_year numeric (4,0),
+  PRIMARY KEY (id)
+);
+INSERT INTO Team
+VALUES ('OklCityThund800','Oklahoma City Thunder','1101 Sunset Boulevard','Oklahoma City','Randy Parker','bear.gif','big brown bear','(474) 123-5555','OCityThunder@gmail.com',2006),
+VALUES ('ChicBull700', 'Chicago Bulls', '1200 Windy Road', 'Chicago', 'Martin Sam', 'bull.gif', 'red bull', '(209) 190 7865', 'chiccagob@gmail.com', 2010);
+
+id	name	address	city	manager	logo	mascot	telephone	email	start_year
+OklCityThund800	Oklahoma City Thunder	1101 Sunset Boulevard	Oklahoma City	Randy Parker	bear.gif	big brown bear	(474) 123-5555	OCityThunder@gmail.com	2006
+ChicBull700 Chicago Bulls 1200 Windy Road Chicago Martin Sam bull.gif red bull (209) 190 7865 chiccagob@gmail.com 2010
+
+-- create a table Player
+CREATE TABLE Player (
+  id varchar(16),
+  name varchar(40),
+  team_id varchar(16),
+  position varchar(8),
+  squad_no numeric(3,0),
+  height numeric (8,2),
+  weight numeric (8,2),
+  rebounds numeric (8,2),
+  assists numeric (8,2),
+  steals numeric (8,2),
+  blocks numeric (8.2),
+  twopoint_shot_percentage numeric (8,2),
+  threepoint_shot_percentage numeric (8,2),
+  start_year numeric(4,0),
+  date_of_birth date,
+  address varchar(40),
+  telephone varchar (20),
+  email varchar(40),
+  PRIMARY KEY (id),
+  FOREIGN KEY (team_id) references Team
+);
+
+id	name	team_id	position	squad_no	height	weight	rebounds	assists	steals	blocks	twopoint_shot_percentage	threepoint_shot_percentage	start_year	date_of_birth	address	telephone	email
+CAS10001	Catherine Samuel	STGEO100	PG	20	151	80	12	11	10	9	0.596	0.298	2010	2008-11-11	Mt Moritz	(171) 555-2222	casamuel@gmail.com
+RW23480	Russell Westbrook	OklCityThund800	PG	27	190	90	14	488	574	140	0.457	0.299	2009	2008-10-29	305 - 14th Ave. S. Suite 3B	(171) 555-2222	rwestb@hotmail.com
+KI23148	Kyrie Irving	ClevCav600	PG	25	190	87	20	237	389	114	0.491	0.415	2012	2008-10-29	Berguvsvägen 8	(171) 555-2222	kyrieIrving@gmail.com
+JB22952	Jimmy Butler	ChicBull700	SG	26	201	99	36	379	212	114	0.484	0.3779	2012	2008-10-29	305 - 14th Ave. S. Suite 3B	(171) 555-2222	jummibutler@gmail.com
+
+
+
+
+-- create a table Coach
+CREATE TABLE Coach (
+  id varchar(16),
+  name varchar(40),
+  address varchar(40),
+  telephone varchar (20),
+  email varchar (40),
+  team_id varchar(16),
+  specialty varchar(40),
+  start_year numeric(4,0),
+  PRIMARY KEY (id), 
+  FOREIGN KEY (team_id) references Team
+);
+Insert into Coach 
+values ('MB120001','Mike Budenholzer','Mt Moritz Heights','(473) 123 4444','mbudenholzer@hotmail.com','ChicBull700','defensive',2009);
+
+id	name	address	telephone	email	team_id	specialty	start_year
+MB120001	Mike Budenholzer	Mt Moritz Heights	(473) 123 4444	mbudenholzer@hotmail.com	ChicBull700	defensive	2009
+
+
+
+-- create a table Game
+CREATE TABLE Game (
+  id varchar(16),
+  home_team_id varchar(16),
+  away_team_id varchar(16),
+  date date,
+  winner varchar (16),
+  home_score int,
+  away_score int,
+  venue varchar(20),
+  PRIMARY KEY (id), 
+  FOREIGN KEY (home_team_id) references Team,
+  FOREIGN KEY (away_team_id) references Team
+);
+
+Insert into Game
+Values ('21400899','GoldStatWar400','LosAngClip200','2008-04-03','away','110','90','Barclays Center');
+
+id	home_team_id	away_team_id	date	winner	score	venue
+21400899	GoldStatWar400	LosAngClip200	2008-04-03	away	110	90	Barclays Center 
+
+
+-- Query #1
+SELECT Player.name as Player, Coach.name as Coach, Coach.specialty, Team.name as Team
+FROM Player, Team
+INNER JOIN Coach ON Player.team_id = Coach.team_id
+AND Player.team_id = Team.team_id;
+
+Player	Coach	specialty	Team
+Jimmy Butler	Mike Budenholzer	defensive	Chicago Bulls
+
+
+
+--Query #2
+SELECT Player.name as Player, Team.*
+FROM Player
+left JOIN Team ON Player.team_id=team.id
+ORDER BY Player.id;
+
+Player	id	name	address	city	manager	logo	mascot	telephone	email	start_year
+Catherine Samuel	null	null	null	null	null	null	null	null	null	null
+Jimmy Butler	ChicBull700 Chicago Bulls 1200 Windy Road Chicago Martin Sam bull.gif red bull (209) 190 7865 chiccagob@gmail.com 2010
+Kyrie Irving	null	null	null	null	null	null	null	null	null	null
+Russell Westbrook	OklCityThund800	Oklahoma City Thunder	1101 Sunset Boulevard	Oklahoma City	Randy Parker	bear.gif	big brown bear	(474) 123-5555	OCityThunder@gmail.com	2006
+
